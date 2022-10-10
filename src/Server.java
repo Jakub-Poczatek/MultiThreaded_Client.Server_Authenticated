@@ -1,4 +1,4 @@
-// Java implementation of Server side 
+// Java implementation of Server side
 // It contains two classes : Server and ClientHandler 
 // Save file as Server.java 
 
