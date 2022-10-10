@@ -1,85 +1,76 @@
-import java.io.*; 
-import java.text.*; 
-import java.util.*; 
+import java.io.*;
+import java.util.*;
 import java.net.*; 
 
 // ClientHandler class 
 class ClientHandler extends Thread 
-{ 
-	DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd"); 
-	DateFormat fortime = new SimpleDateFormat("hh:mm:ss"); 
-	final DataInputStream dis; 
-	final DataOutputStream dos; 
-	final Socket s; 
+{
+	final DataInputStream fromClient;
+	final DataOutputStream toClient;
+	final Socket socket;
 	
 
 	// Constructor 
-	public ClientHandler(Socket s, DataInputStream dis, DataOutputStream dos) 
+	public ClientHandler(Socket socket, DataInputStream fromClient, DataOutputStream toClient)
 	{ 
-		this.s = s; 
-		this.dis = dis; 
-		this.dos = dos; 
+		this.socket = socket;
+		this.fromClient = fromClient;
+		this.toClient = toClient;
 	} 
 
 	@Override
 	public void run() 
 	{ 
-		String received; 
-		String toreturn; 
-		while (true) 
-		{ 
-			try { 
+		String receivedString;
+		String[] messageParts = new String[2];
 
-				// Ask user what he wants 
-				dos.writeUTF("What do you want?[Date | Time]..\n"+ 
-							"Type Exit to terminate connection."); 
-				
+		int id = 20088704;
+
+		while (true)
+		{ 
+			try {
 				// receive the answer from client 
-				received = dis.readUTF(); 
-				
-				if(received.equals("Exit")) 
-				{ 
-					System.out.println("Client " + this.s + " sends exit..."); 
-					System.out.println("Closing this connection."); 
-					this.s.close(); 
-					System.out.println("Connection closed"); 
-					break; 
-				} 
-				
-				// creating Date object 
-				Date date = new Date(); 
-				
-				// write on output stream based on the 
-				// answer from the client 
-				switch (received) { 
-				
-					case "Date" : 
-						toreturn = fordate.format(date); 
-						dos.writeUTF(toreturn); 
+				receivedString = fromClient.readUTF();
+
+				// Splice the recieved string into conditional and value
+				for(int i = 0; i < receivedString.split(" ").length; i++){
+					messageParts[i] = receivedString.split(" ")[i];
+				}
+
+				// write on output stream based on the
+				// answer from the client
+
+				switch (messageParts[0]) {
+					case "Calculate" :
+						System.out.println(receivedString);
+						try {
+							double result = 3.14 * (Integer.parseInt(messageParts[1]) ^ 2);
+							toClient.writeUTF(Double.toString(result));
+							break;
+						} catch (Exception ex){
+							toClient.writeUTF("Invalid radius");
+							break;
+						}
+						
+					case "Login" :
+						System.out.println("Attempting to Login");
+						boolean validUser;
+						try {
+							validUser = Integer.parseInt(messageParts[1]) == id;
+						} catch(Exception ex){
+							validUser = false;
+						}
+						toClient.writeUTF(Boolean.toString(validUser));
 						break; 
 						
-					case "Time" : 
-						toreturn = fortime.format(date); 
-						dos.writeUTF(toreturn); 
-						break; 
-						
-					default: 
-						dos.writeUTF("Invalid input"); 
+					default:
+						System.out.println(receivedString);
+						toClient.writeUTF("Invalid input");
 						break; 
 				} 
 			} catch (IOException e) { 
 				e.printStackTrace(); 
 			} 
-		} 
-		
-		try
-		{ 
-			// closing resources 
-			this.dis.close(); 
-			this.dos.close(); 
-			
-		}catch(IOException e){ 
-			e.printStackTrace(); 
-		} 
+		}
 	} 
 } 

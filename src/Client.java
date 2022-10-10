@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*; 
-import java.util.Scanner; 
 
 // Client class 
 public class Client extends JFrame {
@@ -17,6 +16,8 @@ public class Client extends JFrame {
 	}
 
 	public Client(){
+		// Is user validated
+		boolean isValidated = false;
 		// Create the GUI Components
 		JPanel topPane = new JPanel(new BorderLayout());
 		JLabel loginLabel = new JLabel("Log In");
@@ -37,7 +38,7 @@ public class Client extends JFrame {
 					String message = loginTextField.getText();
 
 					// Send message
-					toServer.writeUTF(message);
+					toServer.writeUTF("Login " + message.trim().strip());
 
 				} catch (Exception ex){
 					System.err.println(ex);
@@ -52,7 +53,7 @@ public class Client extends JFrame {
 					String message = areaTextField.getText();
 
 					// Send message
-					toServer.writeUTF(message);
+					toServer.writeUTF("Calculate " + message.trim().strip());
 
 				} catch (Exception ex){
 					System.err.println(ex);
@@ -70,25 +71,27 @@ public class Client extends JFrame {
 		bottomPane.add(resultTextField, BorderLayout.SOUTH);
 		add(topPane, BorderLayout.NORTH);
 		add(bottomPane, BorderLayout.SOUTH);
-		add(topPane);
 
 		// Set parameters after adding
+		resultTextField.setPreferredSize(new Dimension(300, 50));
+		resultTextField.setHorizontalAlignment(JTextField.CENTER);
+		resultTextField.setEditable(false);
 
+		areaTextField.setHorizontalAlignment(JTextField.CENTER);
+		areaTextField.setEditable(false);
+
+		loginTextField.setHorizontalAlignment(JTextField.CENTER);
+
+		sendButton.setEnabled(false);
 
 		// Set window parameters
 		setTitle("Multithreaded Area of Circle Calculator");
-		setSize(200, 150);
+		setSize(300, 200);
 		setLocation(300, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
-		loginTextField.setPreferredSize(new Dimension(100, 20));
-		loginTextField.setMinimumSize(new Dimension(100, 100));
-
 		try {
-			// Get the localhost ip
-			InetAddress ip = InetAddress.getByName("localhost");
-
 			// Create a socket to connect to the server
 			Socket socket = new Socket("localhost", 5056);
 
@@ -104,6 +107,20 @@ public class Client extends JFrame {
 		while(true){
 			try{
 				String message = fromServer.readUTF();
+				if(!isValidated) {
+					if (message.equals("true")) {
+						// Enable area components
+						areaTextField.setEditable(true);
+						sendButton.setEnabled(true);
+
+						// Disable login in components
+						loginButton.setEnabled(false);
+						loginTextField.setEditable(false);
+						isValidated = true;
+					} else if (message.equals("false")) {
+						message = "Invalid Login";
+					}
+				}
 				resultTextField.setText(message);
 			} catch (Exception ex){
 				System.err.println(ex);
