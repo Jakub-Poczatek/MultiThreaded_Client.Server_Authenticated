@@ -3,7 +3,7 @@
 // Save file as Server.java 
 
 import java.io.*;
-import java.net.*; 
+import java.net.*;
 
 // Server class 
 public class Server
@@ -13,12 +13,15 @@ public class Server
 	}
 
 	public Server() throws IOException
-	{ 
+	{
+		Long clientNumber = 1L;
+
 		// server is listening on port 5056 
 		ServerSocket serverSocket = new ServerSocket(5056);
-		
-		// running infinite loop for getting 
-		// client request 
+
+		// Instantiate the Database
+		Retrieve db = new Retrieve();
+
 		while (true) 
 		{ 
 			Socket socket = null;
@@ -37,10 +40,12 @@ public class Server
 				System.out.println("Assigning new thread for this client"); 
 
 				// create a new thread object 
-				Thread t = new ClientHandler(socket, fromClient, toClient);
+				Thread t = new ClientHandler(socket, fromClient, toClient, db, clientNumber);
 
 				// Invoking the start() method 
-				t.start(); 
+				t.start();
+
+				clientNumber = clientNumber + 1;
 				
 			} 
 			catch (Exception e){ 

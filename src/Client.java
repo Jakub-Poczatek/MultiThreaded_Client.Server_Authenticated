@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*; 
 
@@ -10,6 +8,7 @@ public class Client extends JFrame {
 	// IO Streams
 	private DataOutputStream toServer;
 	private DataInputStream fromServer;
+	private Socket socket;
 
 	public static void main(String[] args){
 		new Client();
@@ -27,38 +26,48 @@ public class Client extends JFrame {
 		JLabel areaLabel = new JLabel("Calculate the Area");
 		JTextField areaTextField = new JTextField();
 		JButton sendButton = new JButton("Send");
-		JTextField resultTextField = new JTextField();
+		JTextArea resultTextField = new JTextArea();
+		JButton exitButton = new JButton("Exit");
+		JScrollPane resultScrollPane = new JScrollPane(resultTextField);
 
 		// Assign Properties
 		topPane.setLayout(new BorderLayout());
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try{
-					// Get message
-					String message = loginTextField.getText();
+		loginButton.addActionListener(e -> {
+			try{
+				// Get message
+				String message = loginTextField.getText();
 
-					// Send message
-					toServer.writeUTF("Login " + message.trim().strip());
+				// Send message
+				toServer.writeUTF("Login " + message.trim().strip());
 
-				} catch (Exception ex){
-					System.err.println(ex);
-				}
+			} catch (Exception ex){
+				System.err.println(ex);
 			}
 		});
 		bottomPane.setLayout(new BorderLayout());
-		sendButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try{
-					// Get message
-					String message = areaTextField.getText();
+		sendButton.addActionListener(e -> {
+			try{
+				// Get message
+				String message = areaTextField.getText();
 
-					// Send message
-					toServer.writeUTF("Calculate " + message.trim().strip());
+				// Send message
+				toServer.writeUTF("Calculate " + message.trim().strip());
 
-				} catch (Exception ex){
-					System.err.println(ex);
-				}
+			} catch (Exception ex){
+				System.err.println(ex);
 			}
+		});
+		exitButton.addActionListener(e -> {
+			try {
+				toServer.writeUTF("Exit 0");
+				socket.close();
+				toServer.close();
+				fromServer.close();
+				System.exit(0);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+
 		});
 
 		// Add Components
@@ -68,14 +77,16 @@ public class Client extends JFrame {
 		bottomPane.add(areaLabel, BorderLayout.NORTH);
 		bottomPane.add(areaTextField, BorderLayout.CENTER);
 		bottomPane.add(sendButton, BorderLayout.EAST);
-		bottomPane.add(resultTextField, BorderLayout.SOUTH);
+		bottomPane.add(resultScrollPane, BorderLayout.SOUTH);
 		add(topPane, BorderLayout.NORTH);
-		add(bottomPane, BorderLayout.SOUTH);
+		add(bottomPane, BorderLayout.CENTER);
+		add(exitButton, BorderLayout.SOUTH);
 
 		// Set parameters after adding
-		resultTextField.setPreferredSize(new Dimension(300, 50));
-		resultTextField.setHorizontalAlignment(JTextField.CENTER);
+		resultScrollPane.setPreferredSize(new Dimension(300, 150));
 		resultTextField.setEditable(false);
+		resultTextField.setLineWrap(true);
+		resultTextField.setWrapStyleWord(true);
 
 		areaTextField.setHorizontalAlignment(JTextField.CENTER);
 		areaTextField.setEditable(false);
@@ -86,14 +97,14 @@ public class Client extends JFrame {
 
 		// Set window parameters
 		setTitle("Multithreaded Area of Circle Calculator");
-		setSize(300, 200);
+		setSize(300, 300);
 		setLocation(300, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
 		try {
 			// Create a socket to connect to the server
-			Socket socket = new Socket("localhost", 5056);
+			socket = new Socket("localhost", 5056);
 
 			// Create an input stream to receive data from the server
 			fromServer = new DataInputStream(socket.getInputStream());
@@ -104,7 +115,7 @@ public class Client extends JFrame {
 			System.err.println(ex);
 		}
 
-		while(true){
+		while(!socket.isClosed()){
 			try{
 				String message = fromServer.readUTF();
 				if(!isValidated) {
@@ -117,24 +128,13 @@ public class Client extends JFrame {
 						loginButton.setEnabled(false);
 						loginTextField.setEditable(false);
 						isValidated = true;
-					} else if (message.equals("false")) {
-						message = "Invalid Login";
+					} else {
+						resultTextField.setText(resultTextField.getText() + message + "\n");
 					}
-				}
-				resultTextField.setText(message);
+				} else resultTextField.setText(resultTextField.getText() + message + "\n");
 			} catch (Exception ex){
 				System.err.println(ex);
 			}
 		}
 	}
 }
-
-/*
-if(tosend.equals("Exit"))
-		{
-		System.out.println("Closing this connection : " + s);
-		s.close();
-		System.out.println("Connection closed");
-		break;
-}
-*/
