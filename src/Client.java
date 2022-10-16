@@ -65,7 +65,7 @@ public class Client extends JFrame {
 				fromServer.close();
 				System.exit(0);
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				System.out.println(ex);
 			}
 
 		});

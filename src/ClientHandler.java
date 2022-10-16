@@ -59,7 +59,7 @@ class ClientHandler extends Thread
 
 					case "Calculate" :
 						try {
-							double result = 3.14 * (Integer.parseInt(messageParts[1]) ^ 2);
+							double result = Math.PI * (Double.parseDouble(messageParts[1]) * Double.parseDouble(messageParts[1]));
 							toClient.writeUTF(clientName +  ": the area of a circle for radius(" + messageParts[1] + ") is " + result + "."
 															+ "\nPlease enter the Radius of the Circle...");
 							break;
@@ -74,7 +74,7 @@ class ClientHandler extends Thread
 						try{
 							studentId = Integer.parseInt(messageParts[1]);
 						} catch (Exception ex){
-							ex.printStackTrace();
+							System.out.println(ex);
 							toClient.writeUTF(clientName + ": incorrect id, please enter an int...");
 							break;
 						}
@@ -97,7 +97,7 @@ class ClientHandler extends Thread
 								break;
 							}
 						} catch (Exception ex){
-							ex.printStackTrace();
+							System.out.println(ex);
 							toClient.writeUTF("Server: a problem occurred, please try again...");
 							break;
 						}
@@ -108,7 +108,7 @@ class ClientHandler extends Thread
 						break; 
 				} 
 			} catch (IOException e) { 
-				e.printStackTrace(); 
+				System.out.println(e);
 			} 
 		}
 	} 

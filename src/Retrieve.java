@@ -10,7 +10,7 @@ public class Retrieve {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Assign1", "root", "");
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         } catch (Exception ex){
-            ex.printStackTrace();
+            System.out.println(ex);
         }
     }
 

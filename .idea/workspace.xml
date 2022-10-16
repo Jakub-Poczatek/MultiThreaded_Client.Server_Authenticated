@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="208ec059-a97a-4a67-ab2e-1f218b8e6763" name="Changes" comment="v1.0&#10;&#10;Mostly full functionality for static id login. &#10;No Exit button as of yet.">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysql-connector-java-8.0.30.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Retrieve.java" afterDir="false" />
+    <list default="true" id="208ec059-a97a-4a67-ab2e-1f218b8e6763" name="Changes" comment="v2.0&#10;&#10;Full functionality implemented. Including database validation,&#10;detailed messaging and proper exit method.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MultiThreaded_Client.Server_Authenticated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MultiThreaded_Client.Server_Authenticated.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Retrieve.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Retrieve.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,27 +34,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Kuba/college/Distributed Systems/MultiThreaded_Client.Server_Authenticated/mysql-connector-java-8.0.30.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kuba/college/Distributed Systems/MultiThreaded_Client.Server_Authenticated&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ichig\college\Distributed Systems\MultiThreaded_Client.Server_Authenticated\src" />
@@ -69,7 +63,7 @@
       <recent name="C:\Users\Kuba\college\Distributed Systems\MultiThreaded_Client.Server_Authenticated" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.Client">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Client" />
       <module name="MultiThreaded_Client.Server_Authenticated" />
@@ -100,6 +94,9 @@
       <option name="presentableId" value="Default" />
       <updated>1665402325294</updated>
       <workItem from="1665402327707" duration="7157000" />
+      <workItem from="1665480455369" duration="91000" />
+      <workItem from="1665941461275" duration="809000" />
+      <workItem from="1665944166099" duration="567000" />
     </task>
     <task id="LOCAL-00001" summary="Basic Set Up&#10;&#10;Basic code for a multi-threaded Client/Server GUI.">
       <created>1665403984133</created>
@@ -115,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665437302477</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="v2.0&#10;&#10;Full functionality implemented. Including database validation,&#10;detailed messaging and proper exit method.">
+      <created>1665447651020</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1665447651020</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,6 +139,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Basic Set Up&#10;&#10;Basic code for a multi-threaded Client/Server GUI." />
     <MESSAGE value="v1.0&#10;&#10;Mostly full functionality for static id login. &#10;No Exit button as of yet." />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0&#10;&#10;Mostly full functionality for static id login. &#10;No Exit button as of yet." />
+    <MESSAGE value="v2.0&#10;&#10;Full functionality implemented. Including database validation,&#10;detailed messaging and proper exit method." />
+    <option name="LAST_COMMIT_MESSAGE" value="v2.0&#10;&#10;Full functionality implemented. Including database validation,&#10;detailed messaging and proper exit method." />
   </component>
 </project>
